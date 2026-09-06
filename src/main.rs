@@ -140,6 +140,10 @@ fn main() {
     let values: Vec<u64> = vec![4u64, 5u64, 6u64, 7u64];
     let n_small: u128 = values.len() as u128;
     let n_large: u128 = 64u128;
+
+    println!("[*] Recovering low-degree polynomial that passes through n_small = {} points", n_small);
+    println!("[*] Low-degree polynomial will be evaluated on n_large = {} points", n_large);
+
     // find a primitive nth root of unity where n = len(values)
     let large_omega_raw: u64 = find_nth_root_of_unity(n_large as u128, p);
     let large_omega: GoldilocksField = GoldilocksField::from_canonical_u64(large_omega_raw);
