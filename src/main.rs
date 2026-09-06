@@ -183,4 +183,11 @@ fn main() {
 
     // evaluate the recovered low-degree polynomial on n_large points
     let total_points: Vec<(GoldilocksField, GoldilocksField)> = generate_blow_up_points(n_large, large_omega, &lagrange_coeffs);
+
+    // sanity check that interpolation is preserved in the blow-up dataset
+    for i in 0..(n_small as usize) {
+        let idx = i * (ratio as usize); // ratio = 16
+        println!("[!] at idx = {}", idx);
+        assert_eq!(total_points[idx], points[i]);
+    }
 }
