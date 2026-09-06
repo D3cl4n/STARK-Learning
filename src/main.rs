@@ -126,9 +126,17 @@ fn poly_eval(polynomial: &[GoldilocksField], x: GoldilocksField) -> GoldilocksFi
 }
 
 
-// generate pseudorandom points to expand the evaluation domain once the low-degree polynomial is calculated
-fn generate_points(n_large: u128) {
-    
+// generate n_large points to expand the evaluation domain once the low-degree polynomial is calculated
+fn generate_blow_up_points(
+    n_large: u128, 
+    large_omega: GoldilocksField, 
+    polynomial: &[GoldilocksField]
+) -> Vec<(GoldilocksField, GoldilocksField)> {
+    println!("[*] Evaluating recovered polynomial at all powers of the {}th root of unity", large_omega.0);
+
+    let result: Vec<(GoldilocksField, GoldilocksField)> = vec![(GoldilocksField::ZERO, GoldilocksField::ZERO); large_omega.0 as usize];
+
+    result
 }
 
 
@@ -166,4 +174,7 @@ fn main() {
     // get the unique Lagrange Interpolation polynomial that passes through the n points
     let lagrange_coeffs: Vec<GoldilocksField> = lagrange_interpolate(&points);
     println!("[*] Recovered polynomial coefficient vector: {:?} with degree: {}", lagrange_coeffs, lagrange_coeffs.len() - 1);
+
+    // evaluate the recovered low-degree polynomial on n_large points
+    let total_points: Vec<(GoldilocksField, GoldilocksField)> = generate_blow_up_points(n_large, large_omega, &lagrange_coeffs);
 }
