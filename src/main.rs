@@ -136,23 +136,12 @@ fn generate_blow_up_points(
 
     // go over every power when i=0 use n_large as the exponent (will evaluate to 1)
     for i in 0..(n_large as usize) {
-        let mut x_coord: GoldilocksField = GoldilocksField::ZERO;
-        let mut y_coord: GoldilocksField = GoldilocksField::ZERO;
-
-        if i == 0 {
-            x_coord = large_omega.exp_u64(n_large as u64);
-        }
-
-        else {
-            x_coord = large_omega.exp_u64(i as u64);
-        }
-
-        y_coord = poly_eval(polynomial, x_coord);
+        let x_coord: GoldilocksField = large_omega.exp_u64(i as u64); // at i=0 we get one so no need to compute omega^{n_large}
+        let y_coord: GoldilocksField = poly_eval(polynomial, x_coord);
         result[i] = (x_coord, y_coord);
     }
 
     assert_eq!(result.len(), n_large as usize);
-
     result
 }
 
