@@ -117,7 +117,7 @@ fn find_nth_root_of_unity(n: u128, p: u128) -> u64 {
 // evaluate a polynomial (given by a coefficient vector and basis), evaluate at the point x
 fn poly_eval(polynomial: &[GoldilocksField], x: GoldilocksField) -> GoldilocksField {
     let mut result: GoldilocksField = GoldilocksField::ZERO;
-    for &coeff in polynomial {
+    for &coeff in polynomial.iter().rev() {
         result = result * x + coeff;
     }
 
@@ -187,7 +187,6 @@ fn main() {
     // sanity check that interpolation is preserved in the blow-up dataset
     for i in 0..(n_small as usize) {
         let idx = i * (ratio as usize); // ratio = 16
-        println!("[!] at idx = {}", idx);
         assert_eq!(total_points[idx], points[i]);
     }
 }
