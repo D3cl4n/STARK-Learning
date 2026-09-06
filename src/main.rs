@@ -126,9 +126,16 @@ fn poly_eval(polynomial: &[GoldilocksField], x: GoldilocksField) -> GoldilocksFi
 }
 
 
+// generate pseudorandom points to expand the evaluation domain once the low-degree polynomial is calculated
+fn generate_points(n_large: u128) {
+
+}
+
+
 // main function, for FFT will need to pad the number of points to a mutiple of two
 fn main() {
     let p: u128 = 0xFFFFFFFF00000001; // the prime modulus for Goldilocks
+    println!("[*] Running over the Goldilocks field with modulus 0x{:X}", p);
     // define the values which are the y-coordinates of our points
     let values: Vec<u64> = vec![4u64, 5u64, 6u64, 7u64];
     let n_small: u128 = values.len() as u128;
