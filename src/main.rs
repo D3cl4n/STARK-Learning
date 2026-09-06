@@ -117,7 +117,7 @@ fn find_nth_root_of_unity(n: u128, p: u128) -> u64 {
 // evaluate a polynomial (given by a coefficient vector and basis), evaluate at the point x
 fn poly_eval(polynomial: &[GoldilocksField], x: GoldilocksField) -> GoldilocksField {
     let mut result: GoldilocksField = GoldilocksField::ZERO;
-    for &coeff in polynomial.iter().rev() {
+    for &coeff in polynomial.iter().rev() { // reverse order of coefficients to evaluate using Horner's method
         result = result * x + coeff;
     }
 
