@@ -131,7 +131,7 @@ fn generate_blow_up_points(
     large_omega: GoldilocksField, 
     polynomial: &[GoldilocksField]
 ) -> Vec<(GoldilocksField, GoldilocksField)> {
-    println!("[*] Evaluating recovered polynomial at all powers of the {}th root of unity", large_omega.0);
+    println!("[*] Evaluating recovered polynomial at all powers of the {}th root of unity", n_large);
     let mut result: Vec<(GoldilocksField, GoldilocksField)> = vec![(GoldilocksField::ZERO, GoldilocksField::ZERO); n_large as usize];
 
     // go over every power when i=0 use n_large as the exponent (will evaluate to 1)
@@ -150,6 +150,8 @@ fn generate_blow_up_points(
         y_coord = poly_eval(polynomial, x_coord);
         result[i] = (x_coord, y_coord);
     }
+
+    assert_eq!(result.len(), n_large as usize);
 
     result
 }
