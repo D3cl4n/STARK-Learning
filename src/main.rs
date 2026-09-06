@@ -128,7 +128,7 @@ fn poly_eval(polynomial: &[GoldilocksField], x: GoldilocksField) -> GoldilocksFi
 
 // generate pseudorandom points to expand the evaluation domain once the low-degree polynomial is calculated
 fn generate_points(n_large: u128) {
-
+    
 }
 
 
@@ -155,6 +155,7 @@ fn main() {
     assert_eq!(omega.exp_u64(n_small as u64), GoldilocksField::ONE);
 
     // define a set of points to interpolate: (omega^{0}, 4), (omega^{1}, 5), (omega^{2}, 6), omega^{3}, 7)
+    println!("[*] Constructed n={} points using {}th root of unity powers as x-coordinates and values as y-coordinates", n_small, n_small);
     let mut points: Vec<(GoldilocksField, GoldilocksField)> = vec![];
     let mut omega_pow: GoldilocksField = GoldilocksField::ONE; // start at omega^{0} = 1
     for i in 0..(n_small as usize) {
@@ -164,4 +165,5 @@ fn main() {
 
     // get the unique Lagrange Interpolation polynomial that passes through the n points
     let lagrange_coeffs: Vec<GoldilocksField> = lagrange_interpolate(&points);
+    println!("[*] Recovered polynomial coefficient vector: {:?} with degree: {}", lagrange_coeffs, lagrange_coeffs.len() - 1);
 }
