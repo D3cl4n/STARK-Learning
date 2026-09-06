@@ -150,6 +150,10 @@ fn main() {
     let ratio: u64 = (n_large / n_small) as u64; // 64 / 4 = 16 
     let omega: GoldilocksField = large_omega.exp_u64(ratio); // omega = large_omega^{16}
 
+    println!("[*] Recovered a {}th root of unity 0x{:X}", n_large, large_omega.0);
+    assert_eq!(large_omega.exp_u64(n_large as u64), GoldilocksField::ONE); // sanity checks
+    assert_eq!(omega.exp_u64(n_small as u64), GoldilocksField::ONE);
+
     // define a set of points to interpolate: (omega^{0}, 4), (omega^{1}, 5), (omega^{2}, 6), omega^{3}, 7)
     let mut points: Vec<(GoldilocksField, GoldilocksField)> = vec![];
     let mut omega_pow: GoldilocksField = GoldilocksField::ONE; // start at omega^{0} = 1
