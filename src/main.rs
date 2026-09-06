@@ -1,6 +1,5 @@
 use plonky2_field::goldilocks_field::GoldilocksField;
 use plonky2_field::types::Field;
-use rand::Rng;
 
 
 // multiply an existing polynomial by a linear factor (x-xj); building a polynomial by its roots
@@ -133,8 +132,24 @@ fn generate_blow_up_points(
     polynomial: &[GoldilocksField]
 ) -> Vec<(GoldilocksField, GoldilocksField)> {
     println!("[*] Evaluating recovered polynomial at all powers of the {}th root of unity", large_omega.0);
+    let mut result: Vec<(GoldilocksField, GoldilocksField)> = vec![(GoldilocksField::ZERO, GoldilocksField::ZERO); large_omega.0 as usize];
 
-    let result: Vec<(GoldilocksField, GoldilocksField)> = vec![(GoldilocksField::ZERO, GoldilocksField::ZERO); large_omega.0 as usize];
+    // go over every power when i=0 use n_large as the exponent (will evaluate to 1)
+    for i in 0..(n_large as usize) {
+        let mut x_coord: GoldilocksField = GoldilocksField::ZERO;
+        let mut y_coord: GoldilocksField = GoldilocksField::ZERO;
+
+        if i == 0 {
+            x_coord = large_omega.exp_u64(n_large as u64);
+        }
+
+        else {
+            x_coord = large_omega.exp_u64(i as u64);
+        }
+
+        y_coord = poly_eval(polynomial, x_coord);
+        result[i] = (x_coord, y_coord);
+    }
 
     result
 }
