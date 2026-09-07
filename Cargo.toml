@@ -5,3 +5,4 @@ edition = "2024"
 
 [dependencies]
 plonky2_field = "1.0.0"
+sha2 = "0.11.0"
