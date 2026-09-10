@@ -53,3 +53,12 @@ pub fn commit(values: &[GoldilocksField]) -> MerkleTree {
         layers
     }
 }
+
+
+// implement the additional functions for the Merkle tree struct
+impl MerkleTree {
+    // get the root of the Merkle tree (last layer first and only element)
+    pub fn get_root(&self) -> Hash {
+        self.layers.last().unwrap()[0]
+    }
+}
