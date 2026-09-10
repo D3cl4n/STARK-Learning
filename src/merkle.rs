@@ -61,4 +61,14 @@ impl MerkleTree {
     pub fn get_root(&self) -> Hash {
         self.layers.last().unwrap()[0]
     }
+
+    // compute the authentication path for a given node at the specified index
+    pub fn open(&self, idx: usize) -> Vec<Hash> {
+        
+    }
+
+    // verifies that a given leaf is in the Merkle tree at the given index
+    pub fn verify(&self, leaf: Hash, path: &[Hash], idx: usize) -> bool {
+
+    }
 }
