@@ -4,11 +4,17 @@ use sha2::{Sha256, Digest};
 
 
 // hash type for the Merkle tree
-pub type Hash = [u8; 32];
+type Hash = [u8; 32];
+
+
+// struct for the Merkle tree
+pub struct MerkleTree {
+    layers: Vec<Vec<Hash>> // the first inner vector corresponds to the 1st layer or the leaves; last layer is the root
+}
 
 
 // compute the hash of a leaf node
-pub fn hash_leaf_node(value: GoldilocksField) -> Hash {
+fn hash_leaf_node(value: GoldilocksField) -> Hash {
     let mut hasher = Sha256::new();
     hasher.update(value.to_canonical_u64().to_le_bytes());
     hasher.finalize().into() // .into() converts to [u8; 32]
@@ -16,9 +22,19 @@ pub fn hash_leaf_node(value: GoldilocksField) -> Hash {
 
 
 // compute the hash of a node with 2 children
-pub fn hash_parent_node(left: &Hash, right: &Hash) -> Hash {
+fn hash_parent_node(left: &Hash, right: &Hash) -> Hash {
     let mut hasher = Sha256::new();
     hasher.update(left);
     hasher.update(right);
     hasher.finalize().into()
+}
+
+
+// commit: computes the Merkle root given the vector of values
+pub fn commit(values: &[GoldilocksField]) -> MerkleTree {
+    let mut layers: Vec<Vec<Hash>> = vec![values.iter().map(|&v| hash_leaf_node(v)).collect()];
+
+    MerkleTree {
+        layers
+    }
 }
