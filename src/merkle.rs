@@ -39,7 +39,8 @@ pub fn commit(values: &[GoldilocksField]) -> MerkleTree {
 
     // loop until the root is ready to be calculated
     while layers.last().unwrap().len() > 1 {
-        
+        let prev_layer: Vec<Hash> = layers.last().unwrap();
+        let mut next_layer: Vec<Hash> = Vec::with_capacity(prev_layer.len() / 2); // upfront heap allocation since final length is known
     }
 
     MerkleTree {
