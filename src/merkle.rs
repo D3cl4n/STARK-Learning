@@ -32,7 +32,15 @@ fn hash_parent_node(left: &Hash, right: &Hash) -> Hash {
 
 // commit: computes the Merkle root given the vector of values
 pub fn commit(values: &[GoldilocksField]) -> MerkleTree {
+    // ensure the number of values is a multiple of 2
+    assert_eq!(values.len() & values.len() - 1, 0);
+    // create the first layer of leaves
     let mut layers: Vec<Vec<Hash>> = vec![values.iter().map(|&v| hash_leaf_node(v)).collect()];
+
+    // loop until the root is ready to be calculated
+    while layers.last().unwrap().len() > 1 {
+        
+    }
 
     MerkleTree {
         layers
