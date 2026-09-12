@@ -4,7 +4,7 @@ use sha2::{Sha256, Digest};
 
 
 // hash type for the Merkle tree
-type Hash = [u8; 32];
+pub type Hash = [u8; 32];
 
 
 // struct for the Merkle tree
@@ -58,7 +58,7 @@ pub fn commit(values: &[GoldilocksField]) -> MerkleTree {
 // implement the additional functions for the Merkle tree struct
 impl MerkleTree {
     // get the root of the Merkle tree (last layer first and only element)
-    pub fn get_root(&self) -> Hash {
+    pub fn root(&self) -> Hash {
         self.layers.last().unwrap()[0]
     }
 
