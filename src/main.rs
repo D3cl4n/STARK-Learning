@@ -51,4 +51,5 @@ fn main() {
 
     // make Merkle leafs out of the total points after blow-up (x-coordinate public and not committed to)
     let y_points: Vec<GoldilocksField> = total_points.iter().map(|(_, y)| *y).collect();
+    let tree: merkle::MerkleTree = merkle::commit(&y_points);
 }
