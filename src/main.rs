@@ -48,4 +48,7 @@ fn main() {
         let idx = i * (ratio as usize); // ratio = 16
         assert_eq!(total_points[idx], points[i]);
     }
+
+    // make Merkle leafs out of the total points after blow-up (x-coordinate public and not committed to)
+    let y_points: Vec<GoldilocksField> = total_points.iter().map(|(_, y)| *y).collect();
 }
