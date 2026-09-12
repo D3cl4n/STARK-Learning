@@ -53,4 +53,6 @@ fn main() {
     let y_points: Vec<GoldilocksField> = total_points.iter().map(|(_, y)| *y).collect();
     let tree: merkle::MerkleTree = merkle::commit(&y_points);
     let root: merkle::Hash = tree.root();
+
+    println!("[*] Calculated Merkle root of values to be: {:?}", root);
 }
