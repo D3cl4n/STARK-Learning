@@ -64,9 +64,14 @@ impl MerkleTree {
 
     // compute the authentication path for a given node at the specified index
     // the prover does this to provide the verifier with evidence for verify()
-    // pub fn open(&self, idx: usize) -> Vec<Hash> {
-        
-    // }
+    pub fn open(&self, idx: usize) -> Vec<Hash> {
+        // ensure the number of leaves is a multiple of 2
+        assert_eq!(self.layers.first().unwrap().len() & self.layers.first().unwrap().len() - 1, 0);
+
+        let mut path: Vec<Hash> = vec![];
+
+        path
+    }
 
     // // verifies that a given leaf is in the Merkle tree at the given index
     // pub fn verify(&self, leaf: Hash, path: &[Hash], idx: usize) -> bool {
