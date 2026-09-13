@@ -65,8 +65,10 @@ impl MerkleTree {
     // compute the authentication path for a given node at the specified index
     // the prover does this to provide the verifier with evidence for verify()
     pub fn open(&self, idx: usize) -> Vec<Hash> {
-        // ensure the number of leaves is a multiple of 2
-        assert_eq!(self.layers.first().unwrap().len() & self.layers.first().unwrap().len() - 1, 0);
+        // ensure the number of leaves is a multiple of 2 and that index is in range
+        let num_leaves: usize = self.layers.first().unwrap().len();
+        assert_eq!(num_leaves & num_leaves - 1, 0);
+        assert!((0..num_leaves).contains(&idx));
 
         let mut path: Vec<Hash> = vec![];
 
