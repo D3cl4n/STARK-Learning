@@ -71,6 +71,9 @@ impl MerkleTree {
         assert!((0..num_leaves).contains(&idx));
 
         let mut path: Vec<Hash> = vec![];
+        for i in 0..self.layers.len() {
+            
+        }
 
         path
     }

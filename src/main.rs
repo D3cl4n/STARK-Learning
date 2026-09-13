@@ -55,4 +55,6 @@ fn main() {
     let root: merkle::Hash = tree.root();
 
     println!("[*] Calculated Merkle root of values to be: {:?}", root);
+
+    // test verifying that a given leaf is an element of the committed vector at the specified index
 }
