@@ -72,7 +72,7 @@ impl MerkleTree {
 
         let mut path: Vec<Hash> = vec![];
         for i in 0..self.layers.len() {
-            
+            let curr_layer: Vec<Hash> = self.layers[i];
         }
 
         path
