@@ -82,7 +82,14 @@ impl MerkleTree {
     }
 
     // // verifies that a given leaf is in the Merkle tree at the given index
-    // pub fn verify(&self, leaf: Hash, path: &[Hash], idx: usize) -> bool {
+    pub fn verify(&self, leaf: Hash, path: &[Hash], idx: usize) -> bool {
+        let mut current: Hash = leaf;
+        let mut index: usize = idx;
 
-    // }
+        for i in 0..path.len() {
+            current = if index % 2 == 0 { hash_parent_node(&current, &path[i]) } else { hash_parent_node(&path[i], &current) };
+            index /= 2;
+        }
+        current == self.layers.last().unwrap()[0]
+    } 
 }
