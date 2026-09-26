@@ -58,5 +58,5 @@ fn main() {
 
     // test verifying that a given leaf is an element of the committed vector at the specified index
     let authentication_path: Vec<merkle::Hash> = tree.open(5);
-    assert_eq!(true, tree.verify(tree.root(), &authentication_path, 5));
+    assert_eq!(true, tree.verify(tree.root(), merkle::hash_leaf_node(y_points[5]), &authentication_path, 5));
 }

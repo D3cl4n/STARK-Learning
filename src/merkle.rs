@@ -14,7 +14,7 @@ pub struct MerkleTree {
 
 
 // compute the hash of a leaf node
-fn hash_leaf_node(value: GoldilocksField) -> Hash {
+pub fn hash_leaf_node(value: GoldilocksField) -> Hash {
     let mut hasher = Sha256::new();
     hasher.update(value.to_canonical_u64().to_le_bytes());
     hasher.finalize().into() // .into() converts to [u8; 32]
@@ -82,7 +82,7 @@ impl MerkleTree {
     }
 
     // // verifies that a given leaf is in the Merkle tree at the given index
-    pub fn verify(&self, leaf: Hash, path: &[Hash], idx: usize) -> bool {
+    pub fn verify(&self, root: Hash, leaf: Hash, path: &[Hash], idx: usize) -> bool {
         let mut current: Hash = leaf;
         let mut index: usize = idx;
 
@@ -90,6 +90,7 @@ impl MerkleTree {
             current = if index % 2 == 0 { hash_parent_node(&current, &path[i]) } else { hash_parent_node(&path[i], &current) };
             index /= 2;
         }
+
         current == self.layers.last().unwrap()[0]
     } 
 }
