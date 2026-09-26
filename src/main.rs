@@ -57,4 +57,6 @@ fn main() {
     println!("[*] Calculated Merkle root of values to be: {:?}", root);
 
     // test verifying that a given leaf is an element of the committed vector at the specified index
+    let authentication_path: Vec<merkle::Hash> = tree.open(5);
+    assert_eq!(true, tree.verify(tree.root(), &authentication_path, 5));
 }
