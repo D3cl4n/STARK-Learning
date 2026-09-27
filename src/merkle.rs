@@ -9,7 +9,7 @@ pub type Hash = [u8; 32];
 
 // struct for the Merkle tree
 pub struct MerkleTree {
-    layers: Vec<Vec<Hash>> // the first inner vector corresponds to the 1st layer or the leaves; last layer is the root
+    pub layers: Vec<Vec<Hash>> // the first inner vector corresponds to the 1st layer or the leaves; last layer is the root
 }
 
 

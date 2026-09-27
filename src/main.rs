@@ -32,10 +32,11 @@ fn main() {
 
     // verifier checks the authentication path given Merkle root, leaf hash, and claimed index
     for i in 0..challenge_points.len() {
+        println!("[*] Verifying at challenge point {}", challenge_points[i]);
         assert_eq!(true, verifier::verify_challenge(
             &merkle::get_root(&merkle_tree), 
-            &merkle::hash_leaf_node(field_values[i]),
-            i as usize, 
+            &merkle_tree.layers.first().unwrap()[challenge_points[i] as usize],
+            challenge_points[i] as usize, 
             &auth_paths[i]
         ));
     }
