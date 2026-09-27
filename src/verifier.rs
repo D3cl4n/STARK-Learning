@@ -1,4 +1,3 @@
-use crate::polynomial;
 use crate::merkle::{Hash, verify};
 
 
