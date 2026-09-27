@@ -1,8 +1,8 @@
 use plonky2_field::goldilocks_field::GoldilocksField;
 use plonky2_field::types::Field;
 use crate::polynomial;
+use crate::merkle;
 
-pub mod merkle;
 mod stark;
 
 
@@ -51,7 +51,7 @@ pub fn commit(values: &[u64]) -> merkle::MerkleTree {
     // make Merkle leafs out of the total points after blow-up (x-coordinate public and not committed to)
     let y_points: Vec<GoldilocksField> = total_points.iter().map(|(_, y)| *y).collect();
     let tree: merkle::MerkleTree = merkle::commit(&y_points);
-    let root: merkle::Hash = tree.root();
+    let root: merkle::Hash = merkle::get_root(&tree);
 
     println!("[*] Calculated Merkle root of values to be: {:?}", root);
 

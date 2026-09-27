@@ -55,42 +55,41 @@ pub fn commit(values: &[GoldilocksField]) -> MerkleTree {
 }
 
 
-// implement the additional functions for the Merkle tree struct
-impl MerkleTree {
-    // get the root of the Merkle tree (last layer first and only element)
-    pub fn root(&self) -> Hash {
-        self.layers.last().unwrap()[0]
+// function to get the root of a given Merkle Tree
+pub fn get_root(tree: &MerkleTree) -> Hash {
+    tree.layers.last().unwrap()[0]
+}
+
+
+// compute the authentication path for a given node at the specified index
+// the prover does this to provide the verifier with evidence for verify()
+pub fn open(tree: &MerkleTree, mut idx: usize) -> Vec<Hash> {
+    let num_leaves: usize = tree.layers.first().unwrap().len();
+    assert_eq!(num_leaves & (num_leaves - 1), 0, "number of leaves must be a power of two");
+    assert!(idx < num_leaves, "index out of range");
+
+    let mut path: Vec<Hash> = vec![];
+    for i in 0..tree.layers.len() - 1 { // stop before root layer
+        let curr_layer: &Vec<Hash> = &tree.layers[i];
+        let sibling_idx: usize = if idx % 2 == 0 { idx + 1 } else { idx - 1 };
+        let sibling: Hash = curr_layer[sibling_idx];
+        path.push(sibling);
+        idx /= 2;
     }
 
-    // compute the authentication path for a given node at the specified index
-    // the prover does this to provide the verifier with evidence for verify()
-    pub fn open(&self, mut idx: usize) -> Vec<Hash> {
-        let num_leaves: usize = self.layers.first().unwrap().len();
-        assert_eq!(num_leaves & (num_leaves - 1), 0, "number of leaves must be a power of two");
-        assert!(idx < num_leaves, "index out of range");
+    path
+}
 
-        let mut path: Vec<Hash> = vec![];
-        for i in 0..self.layers.len() - 1 { // stop before root layer
-            let curr_layer: &Vec<Hash> = &self.layers[i];
-            let sibling_idx: usize = if idx % 2 == 0 { idx + 1 } else { idx - 1 };
-            let sibling: Hash = curr_layer[sibling_idx];
-            path.push(sibling);
-            idx /= 2;
-        }
 
-        path
+//verifies that a given leaf is in the Merkle tree at the given index
+pub fn verify(root: &Hash, leaf: &Hash, path: &[Hash], idx: usize) -> bool {
+    let mut current: Hash = *leaf;
+    let mut index: usize = idx;
+
+    for i in 0..path.len() {
+        current = if index % 2 == 0 { hash_parent_node(&current, &path[i]) } else { hash_parent_node(&path[i], &current) };
+        index /= 2;
     }
 
-    // // verifies that a given leaf is in the Merkle tree at the given index
-    pub fn verify(&self, root: Hash, leaf: Hash, path: &[Hash], idx: usize) -> bool {
-        let mut current: Hash = leaf;
-        let mut index: usize = idx;
-
-        for i in 0..path.len() {
-            current = if index % 2 == 0 { hash_parent_node(&current, &path[i]) } else { hash_parent_node(&path[i], &current) };
-            index /= 2;
-        }
-
-        current == self.layers.last().unwrap()[0]
-    } 
+    current == *root
 }
