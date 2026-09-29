@@ -3,7 +3,7 @@ use plonky2_field::types::Field;
 
 
 // multiply an existing polynomial by a linear factor (x-xj); building a polynomial by its roots
-pub fn poly_mul_linear(
+fn poly_mul_linear(
     polynomial: &[GoldilocksField], 
     root: GoldilocksField
 ) -> Vec<GoldilocksField> {
@@ -26,13 +26,13 @@ pub fn poly_mul_linear(
 
 
 // multiply a polynomial by a scalar (multiply each coefficient by the scalar)
-pub fn poly_scale(polynomial: &[GoldilocksField], scalar: GoldilocksField) -> Vec<GoldilocksField> {
+fn poly_scale(polynomial: &[GoldilocksField], scalar: GoldilocksField) -> Vec<GoldilocksField> {
     polynomial.iter().map(|&c| c * scalar).collect()
 }
 
 
 // add two polynomials a and b together by adding coefficients on same degree terms (both univariate over x)
-pub fn poly_add(a: &[GoldilocksField], b: &[GoldilocksField]) -> Vec<GoldilocksField> {
+fn poly_add(a: &[GoldilocksField], b: &[GoldilocksField]) -> Vec<GoldilocksField> {
     let length: usize = a.len().max(b.len()); 
     let mut result: Vec<GoldilocksField> = vec![GoldilocksField::ZERO; length];
     
