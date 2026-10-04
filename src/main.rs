@@ -20,13 +20,15 @@ fn main() {
 
     // prover computes authenticaiton path for challenge points
     let mut auth_paths: Vec<Vec<merkle::Hash>> = vec![];
-    let mut exposed_points: Vec<GoldilocksField> = vec![];
+    let mut exposed_points: Vec<(GoldilocksField, GoldilocksField)> = vec![];
     for i in 0..challenge_points.len() {
         auth_paths.push(merkle::open(&prover_output.tree, challenge_points[i] as usize));
-        exposed_points.push(prover_output.points[challenge_points[i] as usize].1);
+        exposed_points.push(prover_output.points[challenge_points[i] as usize]);
     }
 
+    let y_values: Vec<GoldilocksField> = exposed_points.iter().map(|&(_x, y)| y).collect();
+
     // non-interactive proof
-    assert_eq!(true, verifier::verify_challenge_points(&prover_output.root, values.len(), &exposed_points, &auth_paths));
-    //verifier::check_low_degree();
+    assert_eq!(true, verifier::verify_challenge_points(&prover_output.root, values.len(), &y_values, &auth_paths));
+    assert_eq!(true, verifier::check_low_degree(&exposed_points, values.len() - 1));
 }
