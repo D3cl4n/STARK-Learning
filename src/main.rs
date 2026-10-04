@@ -24,7 +24,7 @@ fn main() {
     for i in 0..challenge_points.len() {
         auth_paths.push(merkle::open(&prover_output.tree, challenge_points[i] as usize));
         exposed_points.push(GoldilocksField::from_canonical_u64(
-            &prover_output.tree.layers.first().unwrap()[challenge_points[i] as usize][1])
+            prover_output.tree.layers.first().unwrap()[challenge_points[i] as usize][1].into())
         );
     }
 

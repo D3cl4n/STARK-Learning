@@ -1,17 +1,18 @@
-use crate::merkle::{Hash, verify};
+use crate::merkle::{Hash, verify, hash_leaf_node};
 use crate::polynomial::{lagrange_interpolate, poly_eval};
 use plonky2_field::goldilocks_field::GoldilocksField;
 use sha2::{Sha256, Digest};
 
 
 // given the merkle root, check whether a leaf node is in the Merkle tree at the given index
-pub fn verify_challenge_points(root: &Hash, n: usize, leaves: &[GoldilocksField], auth_paths: &[[Hash]]) -> bool {
+pub fn verify_challenge_points(root: &Hash, n: usize, leaves: &Vec<GoldilocksField>, auth_paths: &Vec<Vec<Hash>>) -> bool {
     // generate challenge points independent of the prover - if they don't match the prover tampered with the Merkle root
     let challenge_points: Vec<u64> = generate_challenge_points(root, n);
 
     // verify each challenge point by computing the leaf node hash and checking the associated authentication path
     for i in 0..challenge_points.len() {
-        if !verify(root, leaves[i], auth_paths[i], challenge_points[i]) {
+        let leaf_hash: Hash = hash_leaf_node(leaves[i]);
+        if !verify(root, &leaves[i], &auth_paths[i], challenge_points[i]) {
             return false;
         }
     }
@@ -22,7 +23,7 @@ pub fn verify_challenge_points(root: &Hash, n: usize, leaves: &[GoldilocksField]
 
 // low-degree check via re-interpolation
 pub fn check_low_degree() -> bool {
-
+    true
 }
 
 
