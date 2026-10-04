@@ -8,7 +8,7 @@ pub fn verify_challenge(root: &Hash, leaf: &Hash, idx: usize, auth_path: &[Hash]
 }
 
 
-// generate challenge points (hardcoded for now)
-pub fn generate_challenge_points() -> Vec<u64> {
+// generate n+1 challenge points where n is the size of the original dataset (need n+1) to test low-degree
+pub fn generate_challenge_points(n: usize) -> Vec<u64> {
     vec![5u64]
 }
