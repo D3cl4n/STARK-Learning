@@ -3,9 +3,6 @@ mod verifier;
 mod polynomial;
 mod merkle;
 
-use plonky2_field::goldilocks_field::GoldilocksField;
-use plonky2_field::types::Field;
-
 
 // main function, for FFT will need to pad the number of points to a mutiple of two
 fn main() {
@@ -16,7 +13,7 @@ fn main() {
     let merkle_tree: merkle::MerkleTree = prover::commit(&values);
 
     // verifier chooses random challenge points and verifies they are on the Lagrange Polynomial and in the Merkle tree
-    let challenge_points: Vec<u64> = verifier::generate_challenge_points(values.len());
+    let challenge_points: Vec<u64> = prover::generate_challenge_points(&merkle_tree.layers.last().unwrap()[0], values.len());
 
     // prover computes authenticaiton path for challenge points
     let mut auth_paths: Vec<Vec<merkle::Hash>> = vec![];
