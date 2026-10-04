@@ -7,8 +7,16 @@ use crate::merkle;
 mod stark;
 
 
+// struct holding all the output from the prover per-commitment
+pub struct ProverOutput {
+    tree: merkle::MerkleTree,
+    root: merkle::Hash,
+    points: Vec<(GoldilocksField, GoldilocksField)>
+}
+
+
 // commit function, for FFT will need to pad the number of points to a mutiple of two
-pub fn commit(values: &[u64]) -> merkle::MerkleTree {
+pub fn commit(values: &[u64]) -> ProverOutput {
     let p: u128 = 0xFFFFFFFF00000001; // the prime modulus for Goldilocks
     println!("[*] Running over the Goldilocks field with modulus 0x{:X}", p);
     let n_small: u128 = values.len() as u128;
@@ -56,11 +64,11 @@ pub fn commit(values: &[u64]) -> merkle::MerkleTree {
 
     println!("[*] Calculated Merkle root of values to be: {:?}", root);
 
-    tree
+    ProverOutput { tree, root, total_points }
 }
 
 
-// generate n+1 challenge points where n is the size of the original dataset (need n+1) to test low-degree
+// generate n+1 challenge points where n is the size of the original dataset (need n+1 min.) to test low-degree
 // by having the prover generate challenge points based on the Merkle root we enable Fiat-Shamir
 pub fn generate_challenge_points(root: &merkle::Hash, n: usize) -> Vec<u64> {
     println!("[*] Generationg n+1 = {} challenge points", n+1);

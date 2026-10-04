@@ -10,7 +10,7 @@ fn main() {
     let values: Vec<u64> = vec![4u64, 5u64, 6u64, 7u64];
 
     // commit to the y-values of the points that lie on the low-degree Lagrange Polynomial passing through values (after blow-up step)
-    let merkle_tree: merkle::MerkleTree = prover::commit(&values);
+    let prover_output: prover::ProverOutput = prover::commit(&values);
 
     // verifier chooses random challenge points and verifies they are on the Lagrange Polynomial and in the Merkle tree
     let challenge_points: Vec<u64> = prover::generate_challenge_points(&merkle_tree.layers.last().unwrap()[0], values.len());
