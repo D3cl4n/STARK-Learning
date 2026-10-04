@@ -65,7 +65,6 @@ pub fn commit(values: &[u64]) -> merkle::MerkleTree {
 pub fn generate_challenge_points(root: &merkle::Hash, n: usize) -> Vec<u64> {
     println!("[*] Generationg n+1 = {} challenge points", n+1);
     let mut challenge_points: Vec<u64> = vec![];
-    let hasher = Sha256::new();
 
     for i in 0..=n {
         let mut res: [u8; 33] = [0u8; 33];
