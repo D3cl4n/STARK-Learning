@@ -4,7 +4,6 @@ mod polynomial;
 mod merkle;
 
 use plonky2_field::goldilocks_field::GoldilocksField;
-use plonky2_field::types::Field;
 
 
 // main function, for FFT will need to pad the number of points to a mutiple of two
