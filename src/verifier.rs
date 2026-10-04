@@ -22,8 +22,19 @@ pub fn verify_challenge_points(root: &Hash, n: usize, leaves: &Vec<GoldilocksFie
 
 
 // low-degree check via re-interpolation
-pub fn check_low_degree() -> bool {
-    true
+pub fn check_low_degree(revealed_points: &[(GoldilocksField, GoldilocksField)], expected_degree: usize) -> bool {
+    println!("[*] Recovering low-degree polynomial for the revealed points");
+
+    // do Lagrange interpolation again which is inefficient and can be improved
+    let needed_points: usize = expected_degree + 1;
+    if revealed_points.len() < needed_points {
+        return false; // to uniquely define a degree D polynomial we need D+1 points
+    }
+
+    // recover low-degree polynomial going through all but 1 of the revealed points
+    let lagrange_coeffs: Vec<GoldilocksField> = lagrange_interpolate(&revealed_points[0..needed_points]);
+    // evaluate the recovered polynomial at the last point to check consistency
+    revealed_points[needed_points].1 == poly_eval(&lagrange_coeffs, revealed_points[needed_points].0)
 }
 
 

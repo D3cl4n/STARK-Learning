@@ -28,16 +28,6 @@ fn main() {
         );
     }
 
+    // non-interactive proof
     verifier::verify_challenge_points(&prover_output.root, values.len(), &exposed_points, &auth_paths);
-
-    // // verifier checks the authentication path given Merkle root, leaf hash, and claimed index
-    // for i in 0..challenge_points.len() {
-    //     println!("[*] Verifying at challenge point {}", challenge_points[i]);
-    //     assert_eq!(true, verifier::verify_challenge(
-    //         &merkle::get_root(&merkle_tree), 
-    //         &merkle_tree.layers.first().unwrap()[challenge_points[i] as usize],
-    //         challenge_points[i] as usize, 
-    //         &auth_paths[i]
-    //     ));
-    // }
 }
