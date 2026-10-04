@@ -9,9 +9,9 @@ mod stark;
 
 // struct holding all the output from the prover per-commitment
 pub struct ProverOutput {
-    tree: merkle::MerkleTree,
-    root: merkle::Hash,
-    points: Vec<(GoldilocksField, GoldilocksField)>
+    pub tree: merkle::MerkleTree,
+    pub root: merkle::Hash,
+    pub points: Vec<(GoldilocksField, GoldilocksField)>
 }
 
 
