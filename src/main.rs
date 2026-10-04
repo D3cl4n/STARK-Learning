@@ -29,5 +29,6 @@ fn main() {
     }
 
     // non-interactive proof
-    verifier::verify_challenge_points(&prover_output.root, values.len(), &exposed_points, &auth_paths);
+    assert_eq!(true, verifier::verify_challenge_points(&prover_output.root, values.len(), &exposed_points, &auth_paths));
+    //verifier::check_low_degree();
 }
