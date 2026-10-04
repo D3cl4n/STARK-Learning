@@ -54,6 +54,7 @@ fn generate_challenge_points(root: &Hash, n: usize) -> Vec<u64> {
         // first 6 bits cast to u64 for challenge point [0, 64]
         challenge_points.push((hash[0] >> 2) as u64);
     }
+    println!("[*] Generated challenge points: {:?}", challenge_points);
 
     challenge_points
 }
