@@ -40,7 +40,6 @@ pub fn check_low_degree(revealed_points: &[(GoldilocksField, GoldilocksField)], 
 
 // independent calculation of the challenge points given merkle root to ensure prover isn't cherry-picking points
 // generate n+1 challenge points where n is the size of the original dataset (need n+1 min.) to test low-degree
-// by having the prover generate challenge points based on the Merkle root we enable Fiat-Shamir
 fn generate_challenge_points(root: &Hash, n: usize) -> Vec<u64> {
     println!("[*] Generationg n+1 = {} challenge points", n+1);
     let mut challenge_points: Vec<u64> = vec![];
