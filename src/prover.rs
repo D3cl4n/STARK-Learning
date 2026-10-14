@@ -88,3 +88,13 @@ pub fn generate_challenge_points(root: &merkle::Hash, n: usize) -> Vec<u64> {
 
     challenge_points
 }
+
+
+// perform FRI folding given challenge points, and low-degree Lagrange polynomial
+pub fn fri_fold(polynomial: &[GoldilocksField], challenge_points: &[GoldilocksField], n_large: u128) -> Vec<GoldilocksField {
+    let fri_polynomials: (Vec<GoldilocksField>, Vec<GoldilocksField>) = polynomial::split_polynomial(polynomial);
+    let mut evaluations: Vec<GoldilocksField> = vec![];
+    for i in 0..(n_large / 2) {
+        
+    }
+}

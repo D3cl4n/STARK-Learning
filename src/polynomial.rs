@@ -116,3 +116,19 @@ pub fn poly_eval(polynomial: &[GoldilocksField], x: GoldilocksField) -> Goldiloc
 
     result
 }
+
+
+// split a polynomial into even and odd indexed coefficients for FRI folding (tuple.0 is even, tuple.1 is off)
+pub fn split_polynomial(polynomial: &[GoldilocksField]) -> (Vec<GoldilocksField>, Vec<GoldilocksField>) {
+    let mut result: (Vec<GoldilocksField>, Vec<GoldilocksField>) = (vec![], vec![]);
+    for i in 0..polynomial.len() {
+        if i % 2 == 0 {
+            result.0.push(polynomial[i]);
+        }
+        else {
+            result.1.push(polynomial[i]);
+        }
+    }
+
+    result
+}
