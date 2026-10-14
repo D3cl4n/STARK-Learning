@@ -11,7 +11,8 @@ mod stark;
 pub struct ProverOutput {
     pub tree: merkle::MerkleTree,
     pub root: merkle::Hash,
-    pub points: Vec<(GoldilocksField, GoldilocksField)>
+    pub points: Vec<(GoldilocksField, GoldilocksField)>,
+    pub coeffs: Vec<GoldilocksField>
 }
 
 
@@ -64,7 +65,7 @@ pub fn commit(values: &[u64]) -> ProverOutput {
 
     println!("[*] Calculated Merkle root of values to be: {:?}", root);
 
-    ProverOutput { tree, root, points: total_points }
+    ProverOutput { tree, root, points: total_points, coeffs: lagrange_coeffs }
 }
 
 
